@@ -1,6 +1,9 @@
-import 'package:canvasthoughtsflutter/widgets/stateful/navigation_bar.dart';
+
+import 'package:canvasthoughtsflutter/services/view_museums.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../models/museum.dart';
+import '../widgets/stateful/navigation_bar.dart';
 
 class MyLists extends StatefulWidget {
   const MyLists({super.key});
@@ -10,15 +13,24 @@ class MyLists extends StatefulWidget {
 }
 
 class _MyListsState extends State<MyLists> {
-  List<String> user_lists = [
-    'Louvre',
-    'Modern Art Museum',
-    'Met Collection',
-    'Asian Collection',
-    'Paul Getty Center',
-    'Musee d Orsay',
-    'Uffizi Gallery'
-  ];
+  List<Museum> userLists = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchMuseums();
+  }
+
+  Future<void> fetchMuseums() async {
+    try {
+      List<Museum> museums = await getMuseums();
+      setState(() {
+        userLists = museums;
+      });
+    } catch (error) {
+      print('Error fetching museums: $error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,19 +57,19 @@ class _MyListsState extends State<MyLists> {
           SizedBox(height:25),
           Expanded(
             child: ListView.builder(
-              itemCount: user_lists.length,
+              itemCount: userLists.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 70),
                   child: Card(
                       child: ListTile(
                     onTap: () {
-                      //TODO navigate to this list of paintings
+                      Navigator.pushNamed(context, '/paintings-list',arguments:{'museum': userLists[index]});
                     },
                     title: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        user_lists[index],
+                        userLists[index].name,
                         textAlign: TextAlign.center,
                         style: GoogleFonts.spinnaker(
                           textStyle: TextStyle(

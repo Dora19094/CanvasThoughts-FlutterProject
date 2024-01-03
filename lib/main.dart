@@ -1,7 +1,8 @@
 import 'package:canvasthoughtsflutter/pages/add_painting.dart';
-import 'package:canvasthoughtsflutter/pages/home_page.dart';
-import 'package:canvasthoughtsflutter/pages/loading_page.dart';
-import 'package:canvasthoughtsflutter/pages/my_lists.dart';
+import 'package:canvasthoughtsflutter/pages/home.dart';
+import 'package:canvasthoughtsflutter/pages/loading.dart';
+import 'package:canvasthoughtsflutter/pages/museums_list.dart';
+import 'package:canvasthoughtsflutter/pages/paintings_list.dart';
 import 'package:flutter/material.dart';
 
 
@@ -13,6 +14,7 @@ void main() {
         '/home': (context) => Home(),
         '/lists': (context) => MyLists(),
         '/add-painting': (context) => AddPainting(),
+        '/paintings-list': (context) => ViewPaintingsList()
       }
 
   ));
