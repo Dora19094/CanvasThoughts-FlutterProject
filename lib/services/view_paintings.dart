@@ -1,13 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../models/painting.dart';
 
-Future<List<Painting>> getPaintings(String museumId) async{
-  await Future.delayed(Duration(seconds: 1), () {
-    print('After 1 second data retrieved with museum id $museumId');
-  });
+CollectionReference paintingsRef = FirebaseFirestore.instance.collection('paintings');
 
-  return [
-    Painting(museumId: '1', title: 'Mona Lisa', imageUrl: 'assets/mona_lisa.jpg'),
-    Painting(museumId: '1', title: 'Starry Night', imageUrl: 'assets/starry_night.jpg'),
-    Painting(museumId: '2', title: 'The Persistence of Memory', imageUrl: 'assets/persistence_of_memory.jpg'),
-  ];
-}
+
+Future<List<Painting>> getPaintings(String museumId) async{
+    List<Painting> paintings = [];
+    await paintingsRef
+        .where('museumId', isEqualTo: museumId)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        Painting painting = Painting(museumId: doc['museumId'], title: doc['title'],paintingId: doc['paintingId'],imageUrl: doc['imageUrl'], artist: doc['artist']);
+        paintings.add(painting);
+      });
+    })
+        .catchError((error) => print("Failed to retrieve paintings: $error"));
+    return paintings;
+  }
+
