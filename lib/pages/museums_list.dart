@@ -1,4 +1,3 @@
-
 import 'package:canvasthoughtsflutter/services/view_museums.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,21 +14,22 @@ class MyLists extends StatefulWidget {
 class _MyListsState extends State<MyLists> {
   List<Museum> userLists = [];
 
-  @override
-  void initState() {
-    super.initState();
-    fetchMuseums();
-  }
-
   Future<void> fetchMuseums() async {
     try {
       List<Museum> museums = await getMuseums();
       setState(() {
         userLists = museums;
       });
+      print('Museums are : ${userLists.length}');
     } catch (error) {
       print('Error fetching museums: $error');
     }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    fetchMuseums();
   }
 
   @override
@@ -93,3 +93,5 @@ class _MyListsState extends State<MyLists> {
     );
   }
 }
+
+

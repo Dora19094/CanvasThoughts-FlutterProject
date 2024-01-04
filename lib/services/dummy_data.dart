@@ -1,37 +1,43 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
-//
-// class DatabaseService {
-//   //collection reference
-//   final CollectionReference museums =
-//       FirebaseFirestore.instance.collection('museums');
-//
-//   final CollectionReference paintings =
-//       FirebaseFirestore.instance.collection('paintings');
-//
-//   Future<DocumentReference<Object?>> addMuseum(String name) async {
-//     return await museums.add({'name': name});
-//   }
-//
-//   Future<DocumentReference<Object?>> addPainting(
-//       int museumId, String title, String imageUrl) async {
-//     return await paintings.add({
-//       'museumId': museumId,
-//       'title': title,
-//       'imageUrl': imageUrl,
-//     });
-//   }
-//
-//   Future<void> insertDummyData() async {
-//     await addMuseum('Museum A');
-//     await addMuseum('Museum B');
-//
-//     QuerySnapshot museumSnapshot = await museums.get();
-//     List<DocumentSnapshot> museumsDocuments = museumSnapshot.docs;
-//
-//     for (DocumentSnapshot museum in museumsDocuments) {
-//       int museumId = int.parse(museum.id);
-//       await addPainting(museumId, 'Painting 1', 'image_url_1');
-//       await addPainting(museumId, 'Painting 2', 'image_url_2');
-//     }
-//   }
-// }
+import 'dart:io';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../firebase_options.dart';
+
+class DummyData {
+
+    CollectionReference museums = FirebaseFirestore.instance.collection('museums');
+
+    Future<void> addMuseums(String name) {
+      return museums
+          .add({
+        'name': name,
+        'museumId': FirebaseFirestore.instance.collection('museums').doc().id
+      })
+          .then((value) => print("Museum Added"))
+          .catchError((error) => print("Failed to add museum: $error"));
+    }
+
+    Future<void> insertDummyData() async {
+      await addMuseums('Louvre');
+      //await addMuseums('Uffizi Gallery');
+      await addMuseums('Musee d Orsay');
+      await addMuseums('Paul Getty Center');
+      await addMuseums('Asian Collection');
+      await addMuseums('Met Collection');
+      await addMuseums('Modern Art Museum');
+    }
+
+}
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,);
+  DummyData dd = DummyData();
+  await dd.insertDummyData();
+  print('Dummy data insertion completed!');
+  exit(0);
+}

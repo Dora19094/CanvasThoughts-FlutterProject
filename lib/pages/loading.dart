@@ -11,7 +11,12 @@ class Loading extends StatefulWidget {
 class _LoadingState extends State<Loading> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      backgroundColor: Colors.yellow,
+      body: SafeArea(child: Text('loading!'),
+
+      )
+    );
   }
 }
 

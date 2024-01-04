@@ -1,17 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../models/museum.dart';
 
 Future<List<Museum>> getMuseums() async {
-  await Future.delayed(Duration(seconds: 1), () {
-    print('After 1 second data retrieved');
-  });
+  List<Museum> museums = [];
+  await FirebaseFirestore.instance
+      .collection('museums')
+      .get()
+      .then((QuerySnapshot querySnapshot) {
+    querySnapshot.docs.forEach((doc) {
+      Museum museum = Museum(museumId: doc['museumId'], name: doc['name']);
+      museums.add(museum);
+    });
+  })
+      .catchError((error) => print("Failed to retrieve museums: $error"));
 
-  return [
-    Museum(museumId: '1', name: 'Louvre'),
-    Museum(museumId: '1',name: 'Modern Art Museum'),
-    Museum(museumId: '1',name: 'Met Collection'),
-    Museum(museumId: '1',name: 'Asian Collection'),
-    Museum(museumId: '1',name: 'Paul Getty Center'),
-    Museum(museumId: '1',name: 'Musee d Orsay'),
-    Museum(museumId: '1',name: 'Uffizi Gallery'),
-  ];
+  return museums;
+
 }
