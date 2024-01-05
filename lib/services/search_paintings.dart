@@ -61,13 +61,13 @@ import 'package:http/http.dart' as http;
 // }
 
 Future<List<Painting>> fetchSpecificPaintings() async {
-  final String apiKey = 'mbritemitt ';
+  final String apiKey = 'mbritemitt';
   final String apiUrl = 'https://www.europeana.eu/api/v2/search.json';
   final List<Painting> results = [];
 
   try {
     final response = await http.get(
-      Uri.parse('$apiUrl?wskey=$apiKey&query=title:"Mona Lisa"&qf=TYPE:IMAGE'),
+      Uri.parse('$apiUrl?wskey=$apiKey&query=title:"Sun"&qf=TYPE:IMAGE'),
     );
 
     if (response.statusCode == 200) {

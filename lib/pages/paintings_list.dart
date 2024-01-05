@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/museum.dart';
 import '../models/painting.dart';
-import '../services/view_paintings.dart';
+import '../services/view_add_paintings.dart';
 
 class ViewPaintingsList extends StatefulWidget {
   const ViewPaintingsList({super.key});
@@ -62,13 +62,13 @@ class _ViewPaintingsListState extends State<ViewPaintingsList> {
               itemCount: paintings.length,
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                   child: SizedBox(
                     height: 130,
                     child: Card(
                       child: ListTile(
                         onTap: () {
-                          // TODO: navigate to view painting
+                          Navigator.pushNamed(context, '/painting-notes',arguments: {'painting': paintings[index]});
                         },
                         leading: Container(
                           width: 70,
@@ -80,7 +80,7 @@ class _ViewPaintingsListState extends State<ViewPaintingsList> {
                           ),
                         ),
                         title: Padding(
-                          padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                          padding: const EdgeInsets.fromLTRB(7, 0, 0, 0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -90,7 +90,7 @@ class _ViewPaintingsListState extends State<ViewPaintingsList> {
                                 style: GoogleFonts.spinnaker(
                                   textStyle: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 24,
+                                    fontSize: 22,
                                     letterSpacing: 0.5,
                                   ),
                                 ),
@@ -106,12 +106,11 @@ class _ViewPaintingsListState extends State<ViewPaintingsList> {
                           ),
                         ),
                         trailing: IconButton(
-                          icon: Icon(Icons.edit),
+                          icon: Icon(Icons.delete),
                           onPressed: () {
-                            // TODO: handle edit button press
+                            // TODO: handle delete button press
                           },
                         ),
-                        // Adjust the following line based on your design requirements
                         contentPadding: EdgeInsets.all(5),
                       ),
                     ),

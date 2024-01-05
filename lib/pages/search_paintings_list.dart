@@ -65,7 +65,7 @@ class _SearchPaintingsListState extends State<SearchPaintingsList> {
                       child: Card(
                         child: ListTile(
                           onTap: () {
-                            // TODO: navigate to select where the painitng will be saved
+                            Navigator.pushNamed(context,'/save-painting',arguments: {'selectedPainting': searchPaintings[index]});
                           },
                           leading: Container(
                             width: 70,

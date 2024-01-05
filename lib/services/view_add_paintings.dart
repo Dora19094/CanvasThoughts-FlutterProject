@@ -20,3 +20,17 @@ Future<List<Painting>> getPaintings(String museumId) async{
     return paintings;
   }
 
+
+Future<void> addPainting(String title,String artist,String museumId,String image) {
+  return paintingsRef
+      .add({
+    'title': title,
+    'paintingId': paintingsRef.doc().id,
+    'museumId': museumId,
+    'imageUrl': image,
+    'artist': artist
+  })
+      .then((value) => print("Painting Added"))
+      .catchError((error) => print("Failed to add museum: $error"));
+}
+

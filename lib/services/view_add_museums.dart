@@ -27,7 +27,7 @@ Future<Museum> addMuseum(String name) async{
   try {
     DocumentReference<Object?> docRef = await museumsRef.add({
       'name': name,
-      'museumId': FirebaseFirestore.instance.collection('museums').doc().id,
+      'museumId': museumsRef.doc().id,
     });
     print("Museum Added with ID: ${docRef.id}");
     return Museum(museumId: docRef.id, name: name);
