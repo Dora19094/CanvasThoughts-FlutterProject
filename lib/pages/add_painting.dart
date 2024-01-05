@@ -61,7 +61,7 @@ class _AddPaintingState extends State<AddPainting> {
                 Center(
                   child: ElevatedButton(
                     onPressed: () {
-                      // TODO search painting
+                      Navigator.pushNamed(context, '/search-paintings');
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.black,

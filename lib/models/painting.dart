@@ -8,7 +8,14 @@ class Painting {
   final String imageUrl;
   late List<String> feelings;
 
-  Painting({required this.paintingId,required this.artist, required this.museumId, required this.title, required this.imageUrl});
-
-
+  Painting({
+    String? paintingId,
+    String? museumId,
+    required this.artist,
+    required this.title,
+    required this.imageUrl,
+  })  : this.paintingId = paintingId ?? '',
+        this.museumId = museumId ?? '',
+        notes = '',
+        feelings = [];
 }

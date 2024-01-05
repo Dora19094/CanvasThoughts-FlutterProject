@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:canvasthoughtsflutter/models/painting.dart';
 import 'package:http/http.dart' as http;
 //
 // Future<void> fetchSpecificPaintings() async {
@@ -59,70 +60,56 @@ import 'package:http/http.dart' as http;
 //   return 'not got';
 // }
 
-// Future<void> fetchSpecificPaintings() async {
-//   final String apiKey = 'mbritemitt ';
-//   final String apiUrl = 'https://www.europeana.eu/api/v2/search.json';
-//
-//   try {
-//     final response = await http.get(
-//       Uri.parse('$apiUrl?wskey=$apiKey&query=title:"Mona Lisa"&qf=TYPE:IMAGE'),
-//     );
-//
-//     if (response.statusCode == 200) {
-//       final Map<String, dynamic> data = json.decode(response.body);
-//       final List<dynamic> items = data['items'];
-//
-//       for (var item in items) {
-//         print(item);
-//         final String title = (item['title'] as List<dynamic>?)?.first ?? 'Unknown Title';
-//         final String creator = (item['dcCreator'] as List<dynamic>?)?.first ?? 'Unknown Creator';
-//         final String imageUrl = (item['edmPreview'] as List<dynamic>?)?.first ?? 'No preview available';
-//         if (title != 'Unknown Title' && creator != 'Unknown Creator' && !RegExp(r'\d').hasMatch(creator)
-//             && imageUrl != 'No preview available' && !creator.contains("http")){
-//           print('Title: $title');
-//           print('Creator: $creator');
-//           print('Image URL: $imageUrl');
-//           print('---');
-//         }
-//       }
-//     } else {
-//       print('Failed to fetch paintings. Status code: ${response.statusCode}');
-//     }
-//   } catch (error) {
-//     print('Error fetching data: $error');
-//   }
-// }
-
-
-Future<void> fetchSpecificPaintings() async {
-  final String apiUrl = 'https://en.wikipedia.org/w/api.php';
-  final String title = 'Leonardo da Vinci';
+Future<List<Painting>> fetchSpecificPaintings() async {
+  final String apiKey = 'mbritemitt ';
+  final String apiUrl = 'https://www.europeana.eu/api/v2/search.json';
+  final List<Painting> results = [];
 
   try {
     final response = await http.get(
-      Uri.parse('$apiUrl?action=query&format=json&titles=$title&prop=extracts|pageimages&exintro=true&pithumbsize=300'),
+      Uri.parse('$apiUrl?wskey=$apiKey&query=title:"Mona Lisa"&qf=TYPE:IMAGE'),
     );
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
-      final Map<String, dynamic> pages = data['query']['pages'];
-      final String pageId = pages.keys.first;
-      final String extract = pages[pageId]['extract'];
-      final String imageUrl = pages[pageId]['thumbnail']['source'];
+      if (data.isEmpty) {
+        throw Exception('No paintings retrieved');
+      }
+      final List<dynamic> items = data['items'];
 
-      print('Title: $title');
-      print('Extract: $extract');
-      print('Image URL: $imageUrl');
+      for (var item in items) {
+        //print(item);
+        final String title = (item['title'] as List<dynamic>?)?.first ?? 'Unknown Title';
+        final String creator = (item['dcCreator'] as List<dynamic>?)?.first ?? 'Unknown Creator';
+        final String imageUrl = (item['edmPreview'] as List<dynamic>?)?.first ?? 'No preview available';
+        if (title != 'Unknown Title' && creator != 'Unknown Creator' && !RegExp(r'\d').hasMatch(creator)
+            && imageUrl != 'No preview available' && !creator.contains("http")){
+          print('Title: $title');
+          print('Creator: $creator');
+          print('Image URL: $imageUrl');
+          print('---');
+          Painting new_painting = Painting(artist: creator, title: title, imageUrl: imageUrl);
+          results.add(new_painting);
+        }
+      }
+      return results;
     } else {
-      print('Failed to fetch information. Status code: ${response.statusCode}');
+      throw Exception('Failed to fetch paintings. Status code: ${response.statusCode}');
     }
   } catch (error) {
     print('Error fetching data: $error');
+    return results;
   }
 }
 
+
+
 void main() async {
-  await fetchSpecificPaintings();
-}
+  List<Painting> res = await fetchSpecificPaintings();
+  for (var painting in res){
+    print(painting.title);
+  }
+   print(res);
+ }
 
 
