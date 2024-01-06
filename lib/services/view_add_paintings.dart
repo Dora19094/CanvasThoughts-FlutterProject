@@ -22,15 +22,31 @@ Future<List<Painting>> getPaintings(String museumId) async{
 
 
 Future<void> addPainting(String title,String artist,String museumId,String image) {
-  return paintingsRef
-      .add({
+  String paintingId = paintingsRef.doc().id;
+  return paintingsRef.doc(paintingId)
+      .set({
     'title': title,
-    'paintingId': paintingsRef.doc().id,
     'museumId': museumId,
     'imageUrl': image,
-    'artist': artist
+    'artist': artist,
+    'notes' : '',
+    'feelings': [],
+    'paintingId': paintingId
   })
       .then((value) => print("Painting Added"))
       .catchError((error) => print("Failed to add museum: $error"));
 }
+
+Future<void> savePaintingNotes(Painting painting,String newNotes) {
+  return paintingsRef.doc(painting.paintingId).update({
+    'notes': newNotes,
+  })
+      .then((value) => print("Painting notes updated"))
+      .catchError((error) => print("Failed to update painting's notes: $error"));
+}
+
+
+
+
+
 

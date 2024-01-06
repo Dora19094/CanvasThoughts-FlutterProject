@@ -5,7 +5,7 @@ import 'package:canvasthoughtsflutter/pages/museums_list.dart';
 import 'package:canvasthoughtsflutter/pages/paintings_list.dart';
 import 'package:canvasthoughtsflutter/pages/save_painting.dart';
 import 'package:canvasthoughtsflutter/pages/search_paintings_list.dart';
-import 'package:canvasthoughtsflutter/pages/view_painting_notes.dart';
+import 'package:canvasthoughtsflutter/pages/painting_notes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';

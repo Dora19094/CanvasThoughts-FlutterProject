@@ -15,23 +15,27 @@ class DummyData {
     CollectionReference paintings = FirebaseFirestore.instance.collection('paintings');
     
     Future<void> addMuseums(String name) {
-      return museums
-          .add({
+      String museumId = museums.doc().id;
+      return museums.doc(museumId)
+          .set({
         'name': name,
-        'museumId': museums.doc().id
+        'museumId': museumId
       })
           .then((value) => print("Museum Added"))
           .catchError((error) => print("Failed to add museum: $error"));
     }
 
     Future<void> addPainting(String title,String artist,String museumId,String image) {
-      return paintings
-          .add({
+      String paintingId = paintings.doc().id;
+      return paintings.doc(paintingId)
+          .set({
         'title': title,
-        'paintingId': paintings.doc().id,
         'museumId': museumId,
         'imageUrl': image,
-        'artist': artist
+        'artist': artist,
+        'notes' : '',
+        'feelings': [],
+        'paintingId' : paintingId
       })
           .then((value) => print("Painting Added"))
           .catchError((error) => print("Failed to add museum: $error"));
@@ -42,8 +46,6 @@ class DummyData {
     Future<void> insertDummyData() async {
       Random random = Random();
       await addMuseums('Louvre');
-      await addMuseums('Uffizi Gallery');
-      await addMuseums('Musee d Orsay');
       await addMuseums('Paul Getty Center');
       await addMuseums('Asian Collection');
       await addMuseums('Met Collection');

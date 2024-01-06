@@ -22,17 +22,16 @@ Future<List<Museum>> getMuseums() async {
 
 }
 
-//Add museum
-Future<Museum> addMuseum(String name) async{
-  try {
-    DocumentReference<Object?> docRef = await museumsRef.add({
-      'name': name,
-      'museumId': museumsRef.doc().id,
-    });
-    print("Museum Added with ID: ${docRef.id}");
-    return Museum(museumId: docRef.id, name: name);
-  } catch (error) {
-    print("Failed to add museum: $error");
-    throw Exception("Failed to add museum: $error");
-  }
+//add museum
+Future<Museum> addMuseum(String name) async {
+  String museumId = museumsRef.doc().id;
+  await museumsRef.doc(museumId).set({
+    'name': name,
+    'museumId': museumId
+  });
+
+  print("Museum Added");
+  return Museum(museumId: museumId, name: name);
 }
+
+
