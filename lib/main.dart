@@ -1,5 +1,6 @@
 import 'package:canvasthoughtsflutter/pages/add_painting.dart';
 import 'package:canvasthoughtsflutter/pages/home.dart';
+import 'package:canvasthoughtsflutter/pages/infoWikki.dart';
 import 'package:canvasthoughtsflutter/pages/loading.dart';
 import 'package:canvasthoughtsflutter/pages/museums_list.dart';
 import 'package:canvasthoughtsflutter/pages/paintings_list.dart';
@@ -26,6 +27,7 @@ Future<void> main() async{
         '/search-paintings': (context) => SearchPaintingsList(),
         '/save-painting': (context) => SelectandSave(),
         '/painting-notes': (context) => PaintingNotes(),
+        '/wikki-info': (context) => WikkiInfo(),
 
       }
 

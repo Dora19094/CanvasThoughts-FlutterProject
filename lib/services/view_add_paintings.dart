@@ -12,7 +12,8 @@ Future<List<Painting>> getPaintings(String museumId) async{
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
-        Painting painting = Painting(museumId: doc['museumId'], title: doc['title'],paintingId: doc['paintingId'],imageUrl: doc['imageUrl'], artist: doc['artist']);
+        List<String> feelings = List<String>.from(doc['feelings'] ?? []);
+        Painting painting = Painting(museumId: doc['museumId'], title: doc['title'],paintingId: doc['paintingId'],imageUrl: doc['imageUrl'], artist: doc['artist'],notes: doc['notes'],feelings: feelings);
         paintings.add(painting);
       });
     })

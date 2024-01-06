@@ -27,11 +27,6 @@ class _PaintingNotesState extends State<PaintingNotes> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +70,7 @@ class _PaintingNotesState extends State<PaintingNotes> {
                 ),
                 Card(
                   child: ListTile(
-                    contentPadding: EdgeInsets.fromLTRB(70, 0, 0, 0),
+                    contentPadding: EdgeInsets.fromLTRB(73, 0, 0, 0),
                     title: Text(
                       painting.title,
                       style: TextStyle(
@@ -88,9 +83,10 @@ class _PaintingNotesState extends State<PaintingNotes> {
                         painting.artist, textAlign: TextAlign.center),
                     trailing: IconButton(
                       icon: Icon(Icons.info),
+                      iconSize: 32,
+                      color: Colors.deepPurple[300],
                       onPressed: () {
-                        // TODO navigate to info page
-                        print(painting.paintingId);
+                        Navigator.pushNamed(context, '/wikki-info',arguments: {'painting': painting});
                       },
                     ),
                   ),
@@ -111,12 +107,13 @@ class _PaintingNotesState extends State<PaintingNotes> {
                   ),
                 )
                     : Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(19.0),
                   child: Text(
                     painting.notes.isEmpty
                         ? "Let's add some notes here!"
                         : painting.notes,
                     style: TextStyle(
+                      fontSize: 19,
                       color: Colors.black,
                     ),
                     textAlign: TextAlign.center,
