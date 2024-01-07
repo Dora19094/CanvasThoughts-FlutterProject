@@ -71,13 +71,13 @@ class _CameraState extends State<Camera> {
 
             if (!mounted) return;
 
-            await Navigator.push(
-              context,
+            await Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
                 builder: (context) => DisplayPictureScreen(
                   imagePath: image.path,
                 ),
               ),
+                    (Route route) => false
             );
           } catch (e) {
             print(e);
