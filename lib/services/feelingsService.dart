@@ -33,7 +33,9 @@ Future<List<String>> feelings (String notes)async{
   return [''];
 }
 
-
+List<String> dummy_feeling(String notes){
+  return ['Happy','Excited','Worried'];
+}
 
 void test(){
   String body = '''{
