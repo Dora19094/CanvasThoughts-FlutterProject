@@ -1,4 +1,4 @@
-import 'package:canvasthoughtsflutter/services/get_wikki_info.dart';
+import 'package:canvasthoughtsflutter/services/wikkiInfoService.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

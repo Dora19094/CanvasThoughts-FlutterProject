@@ -1,4 +1,4 @@
-import 'package:canvasthoughtsflutter/services/view_add_paintings.dart';
+import 'package:canvasthoughtsflutter/services/paintingService.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -70,7 +70,7 @@ class _PaintingNotesState extends State<PaintingNotes> {
                 ),
                 Card(
                   child: ListTile(
-                    contentPadding: EdgeInsets.fromLTRB(73, 0, 0, 0),
+                    contentPadding: EdgeInsets.fromLTRB(70, 0, 0, 0),
                     title: Text(
                       painting.title,
                       style: TextStyle(

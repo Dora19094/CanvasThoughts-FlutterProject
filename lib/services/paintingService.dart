@@ -46,6 +46,13 @@ Future<void> savePaintingNotes(Painting painting,String newNotes) {
       .catchError((error) => print("Failed to update painting's notes: $error"));
 }
 
+Future<void> deletePainting(String paintingId) {
+  return paintingsRef.doc(paintingId).delete()
+      .then((value) => print("Painting Deleted"))
+      .catchError((error) => print("Failed to delete painting: $error"));
+}
+
+
 
 
 

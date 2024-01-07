@@ -1,4 +1,4 @@
-import 'package:canvasthoughtsflutter/services/view_add_museums.dart';
+import 'package:canvasthoughtsflutter/services/museumService.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/museum.dart';
@@ -72,7 +72,7 @@ class _MyListsState extends State<MyLists> {
                 if (index == userLists.length) {
                   return Padding(
                     padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 70),
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 60),
                     child: Card(
                       child: ListTile(
                         onTap: () {
@@ -113,7 +113,7 @@ class _MyListsState extends State<MyLists> {
                 } else {
                   return Padding(
                     padding: const EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 70),
+                        vertical: 20, horizontal: 60),
                     child: Card(
                       child: ListTile(
                         onTap: () {
@@ -121,20 +121,29 @@ class _MyListsState extends State<MyLists> {
                               arguments: {'museum': userLists[index]});
                         },
                         title: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(4.0),
                           child: Text(
                             userLists[index].name,
                             textAlign: TextAlign.center,
                             style: GoogleFonts.spinnaker(
                               textStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize: 24,
+                                fontSize: 22,
                                 letterSpacing: 0.5,
                               ),
                             ),
                           ),
                         ),
                         titleAlignment: ListTileTitleAlignment.center,
+                        trailing: IconButton(
+                          onPressed: () async{
+                            await deleteMuseum(userLists[index].museumId);
+                            setState(() {
+                              userLists.remove(userLists[index]);
+                            });
+                          },
+                          icon: Icon(Icons.delete),
+                        ),
                       ),
                     ),
                   );

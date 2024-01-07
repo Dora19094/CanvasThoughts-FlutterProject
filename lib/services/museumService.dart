@@ -4,6 +4,7 @@ import '../models/museum.dart';
 
 //Collection Reference
 CollectionReference museumsRef = FirebaseFirestore.instance.collection('museums');
+CollectionReference paintingsRef = FirebaseFirestore.instance.collection('paintings');
 
 //View museums
 Future<List<Museum>> getMuseums() async {
@@ -33,5 +34,23 @@ Future<Museum> addMuseum(String name) async {
   print("Museum Added");
   return Museum(museumId: museumId, name: name);
 }
+
+//delete museum
+Future<void> deleteMuseum(String museumId) async {
+  await paintingsRef
+      .where('museumId', isEqualTo: museumId)
+      .get()
+      .then((QuerySnapshot querySnapshot) {
+    querySnapshot.docs.forEach((doc) async {
+      await paintingsRef.doc(doc.id).delete();
+      print("Painting Deleted: ${doc.id}");
+    });
+  });
+
+  return FirebaseFirestore.instance.collection('museums').doc(museumId).delete()
+      .then((value) => print("Museum Deleted"))
+      .catchError((error) => print("Failed to delete museum: $error"));
+}
+
 
 

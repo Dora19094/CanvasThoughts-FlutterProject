@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/museum.dart';
 import '../models/painting.dart';
-import '../services/view_add_paintings.dart';
+import '../services/paintingService.dart';
 
 class ViewPaintingsList extends StatefulWidget {
   const ViewPaintingsList({super.key});
@@ -107,8 +107,11 @@ class _ViewPaintingsListState extends State<ViewPaintingsList> {
                         ),
                         trailing: IconButton(
                           icon: Icon(Icons.delete),
-                          onPressed: () {
-                            // TODO: handle delete button press
+                          onPressed: () async{
+                            await deletePainting(paintings[index].paintingId);
+                            setState(() {
+                              paintings.remove(paintings[index]);
+                            });
                           },
                         ),
                         contentPadding: EdgeInsets.all(5),

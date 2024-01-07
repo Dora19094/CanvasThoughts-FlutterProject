@@ -2,7 +2,7 @@ import 'package:canvasthoughtsflutter/models/painting.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../services/search_paintings.dart';
+import '../services/searchPaintingsService.dart';
 
 class SearchPaintingsList extends StatefulWidget {
   const SearchPaintingsList({super.key});
