@@ -1,10 +1,19 @@
+import 'package:canvasthoughtsflutter/pages/camera.dart';
 import 'package:canvasthoughtsflutter/widgets/stateful/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
+import 'dart:async';
+import 'dart:io';
 
 class AddPainting extends StatefulWidget {
-  const AddPainting({super.key});
-
+  AddPainting({super.key,
+  required this.title,
+  required this.artist
+  });
+  final TextEditingController title;
+  final TextEditingController artist;
   @override
   State<AddPainting> createState() => _AddPaintingState();
 }
@@ -35,6 +44,7 @@ class _AddPaintingState extends State<AddPainting> {
                 Text('Title'),
                 SizedBox(height: 2),
                 TextField(
+                  controller: widget.title,
                   decoration: InputDecoration(
                     labelText: 'Enter title',
                     border: OutlineInputBorder(),
@@ -48,6 +58,7 @@ class _AddPaintingState extends State<AddPainting> {
                 Text('Artist'),
                 SizedBox(height: 2),
                 TextField(
+                  controller: widget.artist,
                   decoration: InputDecoration(
                     labelText: 'Enter name of the artist',
                     border: OutlineInputBorder(),
@@ -95,8 +106,15 @@ class _AddPaintingState extends State<AddPainting> {
                 SizedBox(height: 40),
                 Center(
                   child: FloatingActionButton(
-                    onPressed: () {
-                      // TODO: Handle camera button press
+                    onPressed: ()async{
+                      WidgetsFlutterBinding.ensureInitialized();
+                      final cameras = await availableCameras();
+                      final firstCamera = cameras.first;
+                      Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Camera(
+                        camera: firstCamera,
+                      ))
+                      );
                     },
                     backgroundColor: Colors.purple[200],
                     elevation: 3,
@@ -113,3 +131,5 @@ class _AddPaintingState extends State<AddPainting> {
     );
   }
 }
+
+
