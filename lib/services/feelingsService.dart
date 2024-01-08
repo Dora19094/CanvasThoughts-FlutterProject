@@ -1,66 +1,36 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
+import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 
-Future<List<String>> feelings (String notes)async{
-  final String apiUrl = "https://api.apilayer.com/text_to_emotion";
-  final text = utf8.encode(notes);
-  try {
-    final response = await http.post(
-      Uri.parse(apiUrl),
-      headers: {'apikey': 'u5STmETC3rLXyeYt9Cjafxx2ffFajkwC'},
-      body: text
-    ).timeout(Duration(seconds: 40));
-    if(response.statusCode == 200){
-      List<String> result = [];
-      Map<String, dynamic> data = json.decode(response.body);
-      data = Map.fromEntries(
-          data.entries.toList()..sort((e2, e1) => e1.value.compareTo(e2.value)));
-      int i =0;
-      for ( String key in data.keys){
-        if(data[key] as double>0)
-          result.add(key);
-        i++;
-        if(i == 3)
-          break;
-      }
-      return result;
-    }
-  }catch (e) {
-    print('Error: $e');
-    return ['Error fetching painting information'];
-  }
-  return [''];
+Future<List<String?>> feelingsService(String prompt) async {
+  String begining =  'Given this paragraph return exactly 3 words seperated by commas, corresponding to 3 feelings it portrays. ';
+  prompt = begining + prompt;
+  final openAI = OpenAI.instance.build(token: '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',
+      baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 5)),enableLog: true);
+  final request = ChatCompleteText(messages: [
+    Messages(role: Role.user, content: prompt)
+  ], maxToken: 200, model: GptTurbo0301ChatModel());
+  final response = await openAI.onChatCompletion(request: request);
+  String result = '';
+  result = response!.choices[0].message!.content;
+  result = result.replaceAll('.', '');
+  result = result.replaceAll(' ', '');
+  final splitted = result.split(',');
+  return splitted;
 }
 
-List<String> dummy_feeling(String notes){
-  return ['Happy','Excited','Worried'];
-}
 
-void test(){
-  String body = '''{
-    "Happy": 0.14,
-    "Angry": 0.0,
-    "Surprise": 0.29,
-    "Sad": 0.29,
-    "Fear": 0.29
-  }''';
-  Map<String, dynamic> data = json.decode(body);
-  List<String> result = [];
-  data = Map.fromEntries(
-      data.entries.toList()..sort((e2, e1) => e1.value.compareTo(e2.value)));
-  int i =0;
-  for ( String key in data.keys){
-    if(data[key] as double>0)
-      result.add(key);
-    i++;
-    if(i == 3)
-      break;
-  }
-  print(result);
-}
+void main() async {
+  // Example prompt
+  String prompt = "Spent some time soaking in the beauty of Vincent van Gogh's 'Olive Trees.' It's like stepping into a sun-drenched dream. The colors he splashed on the canvas make those olive trees dance with life. Van Gogh's brushstrokes are full of energy, capturing the essence of a breezy day in an olive grove.";
 
-void main() async{
-  var result = await feelings('I am happy');
-  print(result);
+  // Send request
+  final response = await feelingsService(prompt);
+
+  // Print the response
+  for (int i = 0;i<3;i++)
+    print(response[i]);
+
+  //test();
 }
