@@ -1,9 +1,9 @@
 import 'package:canvasthoughtsflutter/models/painting.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../models/museum.dart';
-import '../services/museumService.dart';
-import '../services/paintingService.dart';
+import '../../models/museum.dart';
+import '../../services/databaseCruds/museumService.dart';
+import '../../services/databaseCruds/paintingService.dart';
 
 class SelectandSave extends StatefulWidget {
   const SelectandSave({super.key});

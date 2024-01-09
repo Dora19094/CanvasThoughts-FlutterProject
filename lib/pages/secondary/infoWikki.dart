@@ -1,8 +1,8 @@
-import 'package:canvasthoughtsflutter/services/wikkiInfoService.dart';
+import 'package:canvasthoughtsflutter/services/apiCalls/wikkiInfoService.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../models/painting.dart';
+import '../../models/painting.dart';
 
 
 class WikkiInfo extends StatefulWidget {

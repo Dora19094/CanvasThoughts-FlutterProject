@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../models/museum.dart';
-import '../models/painting.dart';
-import '../services/paintingService.dart';
+import '../../models/museum.dart';
+import '../../models/painting.dart';
+import '../../services/databaseCruds/paintingService.dart';
 
 class ViewPaintingsList extends StatefulWidget {
   const ViewPaintingsList({super.key});

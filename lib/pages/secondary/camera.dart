@@ -1,4 +1,4 @@
-import 'package:canvasthoughtsflutter/pages/add_painting.dart';
+import 'package:canvasthoughtsflutter/pages/main/add_painting.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'dart:async';

@@ -1,8 +1,9 @@
-import 'package:canvasthoughtsflutter/services/paintingService.dart';
+import 'package:canvasthoughtsflutter/services/apiCalls/feelingsService.dart';
+import 'package:canvasthoughtsflutter/services/databaseCruds/paintingService.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../models/painting.dart';
+import '../../models/painting.dart';
 
 class PaintingNotes extends StatefulWidget {
   const PaintingNotes({Key? key}) : super(key: key);
@@ -19,12 +20,19 @@ class _PaintingNotesState extends State<PaintingNotes> {
   bool notesChanged = false;
 
 
-  Future<void> saveNotes(String updatedNotes) async{
+  Future<List<String>> saveNotes(String updatedNotes) async{
     try {
       await savePaintingNotes(painting, updatedNotes);
+      if (updatedNotes == ''){
+        return [];
+      }
+      List<String> feels = await feelingsService(updatedNotes);
+      savePaintingFeelings(painting, feels);
+      return feels;
     } catch (error) {
       print('Error fetching museums: $error');
     }
+    return [];
   }
 
 
@@ -91,6 +99,28 @@ class _PaintingNotesState extends State<PaintingNotes> {
                     ),
                   ),
                 ),
+                painting.feelings.isNotEmpty ?
+                Card(
+                  child: ListTile(
+                    title: Text(
+                      "Prominent Feelings",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    subtitle: Text(
+                      painting.feelings.join(" "),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        wordSpacing: 25
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ):Container(),
                 isEditing
                     ? Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -127,8 +157,9 @@ class _PaintingNotesState extends State<PaintingNotes> {
                         onPressed: () async{
                           String updatedNotes = _textEditingController.text;
                           print(updatedNotes);
-                          await saveNotes(updatedNotes);
+                          List<String> feels = await saveNotes(updatedNotes);
                           setState(() {
+                            painting.feelings = feels;
                             notesChanged = true;
                             painting.notes = updatedNotes;
                             isEditing = false;

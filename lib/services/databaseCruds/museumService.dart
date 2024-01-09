@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../models/museum.dart';
+import '../../models/museum.dart';
 
 //Collection Reference
 CollectionReference museumsRef = FirebaseFirestore.instance.collection('museums');

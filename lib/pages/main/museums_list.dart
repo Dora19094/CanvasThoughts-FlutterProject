@@ -1,8 +1,8 @@
-import 'package:canvasthoughtsflutter/services/museumService.dart';
+import 'package:canvasthoughtsflutter/services/databaseCruds/museumService.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../models/museum.dart';
-import '../widgets/stateful/navigation_bar.dart';
+import '../../models/museum.dart';
+import '../../widgets/stateful/navigation_bar.dart';
 
 class MyLists extends StatefulWidget {
   const MyLists({super.key});

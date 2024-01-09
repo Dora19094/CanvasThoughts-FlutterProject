@@ -10,7 +10,7 @@ Future<String> searchPaintingInfo(String title, String artist) async {
     final response = await http.get(
       Uri.parse(apiUrl),
       headers: {'Accept': 'application/json'},
-    ).timeout(Duration(seconds: 40));
+    ).timeout(Duration(minutes: 5));
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
@@ -41,7 +41,7 @@ Future<String> getPaintingInfo(String pageTitle) async {
   final response = await http.get(
     Uri.parse(apiUrl),
     headers: {'Accept': 'application/json'},
-  ).timeout(Duration(seconds: 40));
+  ).timeout(Duration(minutes: 5));
 
   if (response.statusCode == 200) {
     final Map<String, dynamic> data = json.decode(response.body);

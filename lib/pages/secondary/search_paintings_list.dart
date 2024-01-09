@@ -1,8 +1,7 @@
 import 'package:canvasthoughtsflutter/models/painting.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../services/searchPaintingsService.dart';
+import 'package:canvasthoughtsflutter/services/apiCalls/searchPaintingsService.dart';
 
 class SearchPaintingsList extends StatefulWidget {
   const SearchPaintingsList({super.key});
@@ -13,12 +12,15 @@ class SearchPaintingsList extends StatefulWidget {
 
 class _SearchPaintingsListState extends State<SearchPaintingsList> {
   List<Painting> searchPaintings = [];
+  bool haveLoaded = false;
 
-  Future<void> fetchSearchedPaintings() async {
+
+  Future<void> fetchSearchedPaintings(String artist, String paintingTitle) async {
     try {
-      List<Painting> search = await fetchSpecificPaintings();
+      List<Painting> search = await searchSpecificPaintings(artist, paintingTitle);
       setState(() {
         searchPaintings = search;
+        haveLoaded = true;
       });
       print('We have fetched ${searchPaintings.length}');
     } catch (error) {
@@ -29,7 +31,12 @@ class _SearchPaintingsListState extends State<SearchPaintingsList> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    fetchSearchedPaintings();
+    Map data = {};
+    data = ModalRoute.of(context)?.settings.arguments as Map;
+    if (haveLoaded == false)
+      {
+        fetchSearchedPaintings(data['artist'],data['paintingTitle']);
+      }
   }
 
   @override
@@ -71,10 +78,11 @@ class _SearchPaintingsListState extends State<SearchPaintingsList> {
                             width: 70,
                             height: 100,
                             color: Colors.black,
-                            child: Image.network(
+                            child: !searchPaintings[index].imageUrl.isEmpty ? Image.network(
                               searchPaintings[index].imageUrl,
                               fit: BoxFit.scaleDown,
-                            ),
+                            )
+                                : Container()
                           ),
                           title: Padding(
                             padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),

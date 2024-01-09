@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../models/painting.dart';
+import '../../models/painting.dart';
 
 CollectionReference paintingsRef = FirebaseFirestore.instance.collection('paintings');
 
@@ -50,6 +50,14 @@ Future<void> deletePainting(String paintingId) {
   return paintingsRef.doc(paintingId).delete()
       .then((value) => print("Painting Deleted"))
       .catchError((error) => print("Failed to delete painting: $error"));
+}
+
+Future<void> savePaintingFeelings(Painting painting,List<String> feelings) {
+  return paintingsRef.doc(painting.paintingId).update({
+    'feelings': feelings,
+  })
+      .then((value) => print("Painting feelings updated"))
+      .catchError((error) => print("Failed to update painting's feelings: $error"));
 }
 
 
