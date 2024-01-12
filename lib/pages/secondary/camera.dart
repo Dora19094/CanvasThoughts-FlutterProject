@@ -1,8 +1,14 @@
 import 'package:canvasthoughtsflutter/pages/main/add_painting.dart';
+import 'package:canvasthoughtsflutter/services/imageToText.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:io';
+
+
+
+
 
 class Camera extends StatefulWidget {
   const Camera({
@@ -27,6 +33,8 @@ class _CameraState extends State<Camera> {
     _controller = CameraController(
       widget.camera,
       ResolutionPreset.medium,
+      imageFormatGroup: ImageFormatGroup.nv21
+
     );
     _initializeControllerFuture = _controller.initialize();
   }
@@ -106,7 +114,7 @@ class DisplayPictureScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Display the Picture')),
+      appBar: AppBar(title: const Text('Make sure the picture is clear!')),
       body: Image.file(File(imagePath)),
       floatingActionButton: ElevatedButton(
         child: Text('OK'),
@@ -118,8 +126,8 @@ class DisplayPictureScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(15), // Rounded corners
             )
         ),
-        onPressed: (){
-          List<String> result = search_image(Image.file(File(imagePath)));
+        onPressed: ()async{
+          List<String> result = await search_image(imagePath);
           TextEditingController title = new TextEditingController();
           TextEditingController artist = new TextEditingController();
           title.text = result[0];
@@ -142,7 +150,5 @@ class DisplayPictureScreen extends StatelessWidget {
   }
 }
 
-List<String> search_image(Image image){
-  return ['Quernica', 'Picasso'];
-}
+
 
