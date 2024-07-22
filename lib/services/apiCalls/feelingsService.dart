@@ -12,7 +12,7 @@ Future<List<String>> feelingsService(String prompt) async {
   The response must be in the format: feeling1,feeling2,feeling3''';
   prompt = beginning + prompt;
   final openAI = OpenAI.instance.build(
-      token: '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',
+      token: 'MY_KEY',
       baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 5)),
       enableLog: true);
   final request = ChatCompleteText(
