@@ -47,7 +47,7 @@ Future<List<Painting>> searchSpecificPaintings(
   The response must be in the format: title1,artist1,title2,artist2,...''';
 
   final openAI = OpenAI.instance.build(
-      token: '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',
+      token: 'MY_KEY',
       baseOption: HttpSetup(receiveTimeout: const Duration(minutes: 5)),
       enableLog: true);
   final request = ChatCompleteText(
